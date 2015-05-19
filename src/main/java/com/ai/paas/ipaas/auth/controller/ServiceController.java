@@ -3,8 +3,6 @@ package com.ai.paas.ipaas.auth.controller;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +13,6 @@ import com.ai.paas.ipaas.PaasException;
 import com.ai.paas.ipaas.auth.constants.AuthConstants;
 import com.ai.paas.ipaas.auth.dao.mapper.bo.AuthCenter;
 import com.ai.paas.ipaas.auth.service.IAuthCenterSv;
-import com.ai.paas.ipaas.auth.service.dto.AuthDescriptor;
-import com.ai.paas.ipaas.auth.service.dto.AuthResult;
 import com.ai.paas.ipaas.auth.service.dto.OperResult;
 import com.ai.paas.ipaas.util.Assert;
 import com.ai.paas.ipaas.util.CiperUtil;
@@ -25,47 +21,11 @@ import com.google.gson.Gson;
 @Controller
 @RequestMapping(value = "/service")
 public class ServiceController {
-	private static final Logger log = LogManager.getLogger(ServiceController.class
-			.getName());
 
 	@Autowired
 	IAuthCenterSv authCenterSv;
 	
-	@RequestMapping(value = "/check", produces = "text/html;charset=UTF-8")
-	public @ResponseBody String checkUser(@RequestParam String authUserName,
-			@RequestParam String password, @RequestParam String serviceId)  {
-		
-		AuthResult ar = new AuthResult();
-		Gson son = new Gson();
-		try {
-			Assert.notNull(authUserName, "authUserName is null");
-			Assert.notNull(password, "password is null");
-			Assert.notNull(serviceId, "serviceId is null");
-			
-			AuthDescriptor ad = new AuthDescriptor();
-			ad.setAuthUserName(authUserName);
-			ad.setPassword(password);
-			ad.setServiceId(serviceId);
-			log.debug("authUserName-----------------" + authUserName);
-			log.debug("serviceId-----------------" + serviceId);
-			log.debug("password-----------------" + password);
-			
-			AuthResult queryRes = authCenterSv.authService(ad);
-			if (queryRes.isSuccessed()) {
-				return son.toJson(queryRes);
-			} else {
-				ar.setSuccessed(false);
-				ar.setAuthMsg(queryRes.getAuthMsg());
-				ar.setUserName(authUserName);
-				return son.toJson(ar);
-			}
-		} catch (Exception e) {
-			ar.setAuthMsg("System error...Param{authUserName:"+authUserName+"----password:"+password+"----serviceId:"+serviceId+"}");
-			ar.setUserName(authUserName);
-			ar.setSuccessed(false);
-			return son.toJson(ar);
-		}
-	}
+	
 	@RequestMapping(value = "/svsdk", produces = "text/html;charset=UTF-8")
 	public @ResponseBody String svsdk(@RequestParam String authUserName,
 													String authUserId,
