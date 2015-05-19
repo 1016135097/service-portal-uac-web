@@ -3,7 +3,7 @@ package com.ai.paas.ipaas.auth.dao.mapper.bo;
 import java.sql.Timestamp;
 
 public class AuthCenter {
-    private long authId;
+    private Long authId;
 
     private String authPassword;
 
@@ -23,11 +23,11 @@ public class AuthCenter {
 
     private Timestamp authCancelTime;
 
-    public long getAuthId() {
+    public Long getAuthId() {
         return authId;
     }
 
-    public void setAuthId(long authId) {
+    public void setAuthId(Long authId) {
         this.authId = authId;
     }
 

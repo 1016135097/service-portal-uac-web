@@ -10,7 +10,7 @@ public interface AuthCenterMapper {
 
     int deleteByExample(AuthCenterCriteria example);
 
-    int deleteByPrimaryKey(long authId);
+    int deleteByPrimaryKey(Long authId);
 
     int insert(AuthCenter record);
 
@@ -18,7 +18,7 @@ public interface AuthCenterMapper {
 
     List<AuthCenter> selectByExample(AuthCenterCriteria example);
 
-    AuthCenter selectByPrimaryKey(long authId);
+    AuthCenter selectByPrimaryKey(Long authId);
 
     int updateByExampleSelective(@Param("record") AuthCenter record, @Param("example") AuthCenterCriteria example);
 

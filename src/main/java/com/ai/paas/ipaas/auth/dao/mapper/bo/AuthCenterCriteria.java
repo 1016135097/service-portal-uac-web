@@ -135,32 +135,32 @@ public class AuthCenterCriteria {
             return (Criteria) this;
         }
 
-        public Criteria andAuthIdEqualTo(long value) {
+        public Criteria andAuthIdEqualTo(Long value) {
             addCriterion("AUTH_ID =", value, "authId");
             return (Criteria) this;
         }
 
-        public Criteria andAuthIdNotEqualTo(long value) {
+        public Criteria andAuthIdNotEqualTo(Long value) {
             addCriterion("AUTH_ID <>", value, "authId");
             return (Criteria) this;
         }
 
-        public Criteria andAuthIdGreaterThan(long value) {
+        public Criteria andAuthIdGreaterThan(Long value) {
             addCriterion("AUTH_ID >", value, "authId");
             return (Criteria) this;
         }
 
-        public Criteria andAuthIdGreaterThanOrEqualTo(long value) {
+        public Criteria andAuthIdGreaterThanOrEqualTo(Long value) {
             addCriterion("AUTH_ID >=", value, "authId");
             return (Criteria) this;
         }
 
-        public Criteria andAuthIdLessThan(long value) {
+        public Criteria andAuthIdLessThan(Long value) {
             addCriterion("AUTH_ID <", value, "authId");
             return (Criteria) this;
         }
 
-        public Criteria andAuthIdLessThanOrEqualTo(long value) {
+        public Criteria andAuthIdLessThanOrEqualTo(Long value) {
             addCriterion("AUTH_ID <=", value, "authId");
             return (Criteria) this;
         }
@@ -175,12 +175,12 @@ public class AuthCenterCriteria {
             return (Criteria) this;
         }
 
-        public Criteria andAuthIdBetween(long value1, long value2) {
+        public Criteria andAuthIdBetween(Long value1, Long value2) {
             addCriterion("AUTH_ID between", value1, value2, "authId");
             return (Criteria) this;
         }
 
-        public Criteria andAuthIdNotBetween(long value1, long value2) {
+        public Criteria andAuthIdNotBetween(Long value1, Long value2) {
             addCriterion("AUTH_ID not between", value1, value2, "authId");
             return (Criteria) this;
         }

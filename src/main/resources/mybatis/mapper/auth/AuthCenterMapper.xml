@@ -92,13 +92,13 @@
       limit #{limitStart} , #{limitEnd}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
     select 
     <include refid="Base_Column_List" />
     from auth_center
     where AUTH_ID = #{authId,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="long" >
+  <delete id="deleteByPrimaryKey" parameterType="Long" >
     delete from auth_center
     where AUTH_ID = #{authId,jdbcType=BIGINT}
   </delete>
@@ -121,7 +121,9 @@
   <insert id="insertSelective" parameterType="com.ai.paas.ipaas.auth.dao.mapper.bo.AuthCenter" >
     insert into auth_center
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      AUTH_ID,
+      <if test="authId != null" >
+        AUTH_ID,
+      </if>
       <if test="authPassword != null" >
         AUTH_PASSWORD,
       </if>
@@ -151,7 +153,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      #{authId,jdbcType=BIGINT},
+      <if test="authId != null" >
+        #{authId,jdbcType=BIGINT},
+      </if>
       <if test="authPassword != null" >
         #{authPassword,jdbcType=VARCHAR},
       </if>
