@@ -26,4 +26,11 @@ public interface IAuthCenterSv {
 	 * @throws PaasException
 	 */
 	OperResult svweb(AuthCenter authDes) throws PaasException;
+	/**
+	 * 根据用户名获取用户id
+	 * @param userName
+	 * @return
+	 * @throws PaasException
+	 */
+	String queryUserIdByUserName(String userName) throws PaasException;
 }

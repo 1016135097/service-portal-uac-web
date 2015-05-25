@@ -1,5 +1,7 @@
 package com.ai.paas.ipaas.auth.service.impl;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import com.ai.paas.ipaas.auth.dao.mapper.bo.AuthCenter;
 import com.ai.paas.ipaas.auth.dao.mapper.bo.AuthCenterCriteria;
 import com.ai.paas.ipaas.auth.service.IAuthCenterSv;
 import com.ai.paas.ipaas.auth.service.dto.OperResult;
+import com.esotericsoftware.minlog.Log;
 @Transactional(rollbackFor = Exception.class)
 @Service
 public class AuthCenterSvImpl implements IAuthCenterSv {
@@ -90,5 +93,26 @@ public class AuthCenterSvImpl implements IAuthCenterSv {
         	throw new UserClientException(PaaSConstant.ExceptionCode.SYSTEM_ERROR, e);
         }
         return res;
+	}
+
+
+	@Override
+	public String queryUserIdByUserName(String userName) throws PaasException {
+		try {
+			AuthCenterMapper mapper = template.getMapper(AuthCenterMapper.class);
+			AuthCenterCriteria authCenterCriteria = new AuthCenterCriteria();
+			authCenterCriteria.createCriteria().andAuthUserNameEqualTo(userName);
+			List<AuthCenter> authResults = mapper.selectByExample(authCenterCriteria);
+			if (authResults.size() == 1) {
+				AuthCenter authResult = authResults.get(0);
+				return "{\"userId\":"+authResult.getAuthUserId()+"}";
+			}else{
+				throw new UserClientException(PaaSConstant.ExceptionCode.SYSTEM_ERROR, "you got too many results by this userName,please check your database!");
+			}
+
+		} catch (Exception e) {
+			Log.error("queryUserIdByUserName:"+e.getMessage(), e);
+			throw new UserClientException(PaaSConstant.ExceptionCode.SYSTEM_ERROR, e);
+		}
 	}
 }

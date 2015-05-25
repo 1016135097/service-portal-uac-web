@@ -65,6 +65,11 @@ public class ServiceController {
 		OperResult operRes = authCenterSv.svweb(ac);
 		return son.toJson(operRes);
 	}
+	@RequestMapping(value = "/queryUserIdByUserName", produces = "text/html;charset=UTF-8")
+	public @ResponseBody String queryUserIdByUserName(@RequestParam String userName)  throws PaasException  {
+		Assert.notNull(userName, "userName is null");
+		return authCenterSv.queryUserIdByUserName(userName);
+	}
 	@RequestMapping(value = "/verfiy_email", produces = "text/html;charset=UTF-8")
 	public @ResponseBody String activeUser(@RequestParam String token) throws PaasException  {
 		Gson son = new Gson();
