@@ -53,15 +53,22 @@ public class AuthCenterSvImpl implements IAuthCenterSv {
 		OperResult res = new OperResult();
         try {
         	AuthCenterMapper mapper = template.getMapper(AuthCenterMapper.class);
-			int svsdkResult = mapper.insert(authDes);
-			if(svsdkResult > 0){
+        	AuthCenterCriteria authCenterCriteria = new AuthCenterCriteria();
+        	authCenterCriteria.createCriteria().andAuthUserIdEqualTo(authDes.getAuthUserId()).andAuthUserNameEqualTo(authDes.getAuthUserName());
+			List<AuthCenter> authResults = mapper.selectByExample(authCenterCriteria);
+			if(authResults.size() > 0){
 				res.setResultCode(AuthConstants.AuthResult.SUCCESS);
 	            res.setResultMessage("svsdk Success");
 			}else{
-				res.setResultCode(AuthConstants.AuthResult.FAIL);
-	            res.setResultMessage("svsdk fail");
+				int svsdkResult = mapper.insert(authDes);
+				if(svsdkResult > 0){
+					res.setResultCode(AuthConstants.AuthResult.SUCCESS);
+		            res.setResultMessage("svsdk Success");
+				}else{
+					res.setResultCode(AuthConstants.AuthResult.FAIL);
+		            res.setResultMessage("svsdk fail");
+				}
 			}
-            
         } catch (UserClientException e) {
             res.setResultCode(AuthConstants.AuthResult.FAIL);
             res.setResultMessage(e.getMessage());
