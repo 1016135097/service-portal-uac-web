@@ -76,7 +76,7 @@ public class ServiceController {
 		Assert.notNull(newPwd, "oldPwd is null");
 		Assert.notNull(newPwd, "serviceId is null");
 		Assert.notNull(newPwd, "userId is null");
-		return authCenterSv.modifyServPwd(newPwd, oldPwd, serviceId, userId);
+		return new Gson().toJson(authCenterSv.modifyServPwd(newPwd, oldPwd, serviceId, userId));
 	}
 	@RequestMapping(value = "/verfiy_email", produces = "text/html;charset=UTF-8")
 	public @ResponseBody String activeUser(@RequestParam String token) throws PaasException  {

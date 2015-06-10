@@ -135,9 +135,10 @@ public class AuthCenterSvImpl implements IAuthCenterSv {
 
 
 	@Override
-	public String modifyServPwd(String newPwd, String oldPwd, String serviceId,
+	public OperResult modifyServPwd(String newPwd, String oldPwd, String serviceId,
 			String userId) throws PaasException {
 		Log.info("begin to modifyServPwd ====");
+		OperResult result = new OperResult();
 		try {
 			AuthCenter authCenter = new AuthCenter();
 			authCenter.setAuthPassword(oldPwd);
@@ -145,14 +146,17 @@ public class AuthCenterSvImpl implements IAuthCenterSv {
 			authCenter.setAuthUserName(serviceId);
 			AuthCenterMapper mapper = template.getMapper(AuthCenterMapper.class);
 			AuthCenterCriteria authCenterCriteria = new AuthCenterCriteria();
+			authCenterCriteria.createCriteria().andAuthUserNameEqualTo(serviceId).andAuthPasswordEqualTo(oldPwd).andAuthUserIdEqualTo(userId);
 			List<AuthCenter> authResults = mapper.selectByExample(authCenterCriteria);
 			if (authResults.size() == 1) {
 				authCenter.setAuthPassword(newPwd);
 				if(mapper.updateByExampleSelective(authCenter, authCenterCriteria) > 0){
-					return "{\"resultCode\":\"000000\"}";
+					result.setResultCode(AuthConstants.AuthResult.SUCCESS);
+					return result;
 				}
 			}else{
-				throw new UserClientException(PaaSConstant.ExceptionCode.SYSTEM_ERROR, "your oldPwd or serviceId or userId is not correct you stupid!");
+				result.setResultCode(AuthConstants.AuthResult.FAIL);
+				result.setResultMessage("your oldPwd or serviceId or userId is not correct you stupid!");
 			}
 			
 			
@@ -160,6 +164,6 @@ public class AuthCenterSvImpl implements IAuthCenterSv {
 			Log.error(e.getMessage());
 			throw new UserClientException(PaaSConstant.ExceptionCode.SYSTEM_ERROR, "modifyServPwd error you stupid!");
 		}
-		return "{\"resultCode\":\"999999\"}";
+		return result;
 	}
 }

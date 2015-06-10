@@ -38,5 +38,5 @@ public interface IAuthCenterSv {
 	 * @return
 	 * @throws PaasException
 	 */
-	String modifyServPwd(String newPwd, String oldPwd, String serviceId, String userId) throws PaasException;
+	OperResult modifyServPwd(String newPwd, String oldPwd, String serviceId, String userId) throws PaasException;
 }
