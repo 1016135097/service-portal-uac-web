@@ -70,6 +70,14 @@ public class ServiceController {
 		Assert.notNull(userName, "userName is null");
 		return authCenterSv.queryUserIdByUserName(userName);
 	}
+	@RequestMapping(value = "/modifyServPwd", produces = "text/html;charset=UTF-8")
+	public @ResponseBody String modifyServPwd(@RequestParam String newPwd, String oldPwd, String serviceId, String userId)  throws PaasException  {
+		Assert.notNull(newPwd, "newPwd is null");
+		Assert.notNull(newPwd, "oldPwd is null");
+		Assert.notNull(newPwd, "serviceId is null");
+		Assert.notNull(newPwd, "userId is null");
+		return authCenterSv.modifyServPwd(newPwd, oldPwd, serviceId, userId);
+	}
 	@RequestMapping(value = "/verfiy_email", produces = "text/html;charset=UTF-8")
 	public @ResponseBody String activeUser(@RequestParam String token) throws PaasException  {
 		Gson son = new Gson();

@@ -33,4 +33,10 @@ public interface IAuthCenterSv {
 	 * @throws PaasException
 	 */
 	String queryUserIdByUserName(String userName) throws PaasException;
+	/**
+	 * 修改服务密码
+	 * @return
+	 * @throws PaasException
+	 */
+	String modifyServPwd(String newPwd, String oldPwd, String serviceId, String userId) throws PaasException;
 }

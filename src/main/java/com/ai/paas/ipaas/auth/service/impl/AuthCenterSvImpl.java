@@ -87,14 +87,24 @@ public class AuthCenterSvImpl implements IAuthCenterSv {
         	String phone = names[1];
         	authCenter.setAuthUserName(email);
 			int svwebResult1 = mapper.insert(authCenter);
-			authCenter.setAuthUserName(phone);
-			int svwebResult2 = mapper.insert(authCenter);
-			if(svwebResult1 > 0 && svwebResult2 > 0){
-				res.setResultCode(AuthConstants.AuthResult.SUCCESS);
-	            res.setResultMessage("svweb Success");
+			if(email.indexOf(AuthConstants.INNER_EMAIL_SUFFIX) > -1){
+				if(svwebResult1 > 0 ){
+					res.setResultCode(AuthConstants.AuthResult.SUCCESS);
+		            res.setResultMessage("svweb Success");
+				}else{
+					throw new UserClientException(PaaSConstant.ExceptionCode.SYSTEM_ERROR, "svweb fail");
+				}
 			}else{
-				throw new UserClientException(PaaSConstant.ExceptionCode.SYSTEM_ERROR, "svweb fail");
+				authCenter.setAuthUserName(phone);
+				int svwebResult2 = mapper.insert(authCenter);
+				if(svwebResult1 > 0 && svwebResult2 > 0){
+					res.setResultCode(AuthConstants.AuthResult.SUCCESS);
+		            res.setResultMessage("svweb Success");
+				}else{
+					throw new UserClientException(PaaSConstant.ExceptionCode.SYSTEM_ERROR, "svweb fail");
+				}
 			}
+			
             
         } catch (UserClientException e) {
         	throw new UserClientException(PaaSConstant.ExceptionCode.SYSTEM_ERROR, e);
@@ -121,5 +131,35 @@ public class AuthCenterSvImpl implements IAuthCenterSv {
 			Log.error("queryUserIdByUserName:"+e.getMessage(), e);
 			throw new UserClientException(PaaSConstant.ExceptionCode.SYSTEM_ERROR, e);
 		}
+	}
+
+
+	@Override
+	public String modifyServPwd(String newPwd, String oldPwd, String serviceId,
+			String userId) throws PaasException {
+		Log.info("begin to modifyServPwd ====");
+		try {
+			AuthCenter authCenter = new AuthCenter();
+			authCenter.setAuthPassword(oldPwd);
+			authCenter.setAuthUserId(userId);
+			authCenter.setAuthUserName(serviceId);
+			AuthCenterMapper mapper = template.getMapper(AuthCenterMapper.class);
+			AuthCenterCriteria authCenterCriteria = new AuthCenterCriteria();
+			List<AuthCenter> authResults = mapper.selectByExample(authCenterCriteria);
+			if (authResults.size() == 1) {
+				authCenter.setAuthPassword(newPwd);
+				if(mapper.updateByExampleSelective(authCenter, authCenterCriteria) > 0){
+					return "{\"modifyResult\":\"success\"}";
+				}
+			}else{
+				throw new UserClientException(PaaSConstant.ExceptionCode.SYSTEM_ERROR, "your oldPwd or serviceId or userId is not correct you stupid!");
+			}
+			
+			
+		} catch (Exception e) {
+			Log.error(e.getMessage());
+			throw new UserClientException(PaaSConstant.ExceptionCode.SYSTEM_ERROR, "modifyServPwd error you stupid!");
+		}
+		return "{\"modifyResult\":\"stupid\"}";
 	}
 }

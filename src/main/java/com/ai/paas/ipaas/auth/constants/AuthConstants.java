@@ -3,6 +3,7 @@ package com.ai.paas.ipaas.auth.constants;
 public class AuthConstants {
 	public static final String AUTH_WEB_USER = "WEB";
 	public static final String AUTH_SDK_USER = "SDK";
+	public static final String INNER_EMAIL_SUFFIX = "asiainfo.com";
 	public static final String SPLITER = "\\|";
 	public static final String AUTH_FAILURE_MSG = "username or password is wrong";
 	public static final String SYSTEM_ERROR_MSG = "System error...";
