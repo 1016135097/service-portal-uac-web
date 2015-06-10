@@ -149,7 +149,7 @@ public class AuthCenterSvImpl implements IAuthCenterSv {
 			if (authResults.size() == 1) {
 				authCenter.setAuthPassword(newPwd);
 				if(mapper.updateByExampleSelective(authCenter, authCenterCriteria) > 0){
-					return "{\"modifyResult\":\"success\"}";
+					return "{\"resultCode\":\"000000\"}";
 				}
 			}else{
 				throw new UserClientException(PaaSConstant.ExceptionCode.SYSTEM_ERROR, "your oldPwd or serviceId or userId is not correct you stupid!");
@@ -160,6 +160,6 @@ public class AuthCenterSvImpl implements IAuthCenterSv {
 			Log.error(e.getMessage());
 			throw new UserClientException(PaaSConstant.ExceptionCode.SYSTEM_ERROR, "modifyServPwd error you stupid!");
 		}
-		return "{\"modifyResult\":\"stupid\"}";
+		return "{\"resultCode\":\"999999\"}";
 	}
 }
