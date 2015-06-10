@@ -156,7 +156,7 @@ public class AuthCenterSvImpl implements IAuthCenterSv {
 				}
 			}else{
 				result.setResultCode(AuthConstants.AuthResult.FAIL);
-				result.setResultMessage("your oldPwd or serviceId or userId is not correct you stupid!");
+				result.setResultMessage("oldPwd or serviceId not correct!");
 			}
 			
 			
