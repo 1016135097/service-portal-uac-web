@@ -40,7 +40,9 @@ group = 'com.ai'
 
 dependencies{
 	compile 'com.ai:ipaas-common:0.1-SNAPSHOT'
-	compile 'com.ai:ipaas-base:0.1-SNAPSHOT'
+	compile ('com.ai:ipaas-base:0.1-SNAPSHOT'){
+		exclude group: 'org.apache.tomcat.embed'
+	}
 	compile "org.springframework:spring-web:4.1.6.RELEASE"
 	compile "org.springframework:spring-webmvc:4.1.6.RELEASE"
 	testCompile(  
