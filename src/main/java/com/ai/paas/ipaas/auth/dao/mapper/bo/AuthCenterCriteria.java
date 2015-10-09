@@ -185,6 +185,76 @@ public class AuthCenterCriteria {
             return (Criteria) this;
         }
 
+        public Criteria andAuthPidIsNull() {
+            addCriterion("AUTH_PID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthPidIsNotNull() {
+            addCriterion("AUTH_PID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthPidEqualTo(String value) {
+            addCriterion("AUTH_PID =", value, "authPid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthPidNotEqualTo(String value) {
+            addCriterion("AUTH_PID <>", value, "authPid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthPidGreaterThan(String value) {
+            addCriterion("AUTH_PID >", value, "authPid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthPidGreaterThanOrEqualTo(String value) {
+            addCriterion("AUTH_PID >=", value, "authPid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthPidLessThan(String value) {
+            addCriterion("AUTH_PID <", value, "authPid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthPidLessThanOrEqualTo(String value) {
+            addCriterion("AUTH_PID <=", value, "authPid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthPidLike(String value) {
+            addCriterion("AUTH_PID like", value, "authPid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthPidNotLike(String value) {
+            addCriterion("AUTH_PID not like", value, "authPid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthPidIn(List<String> values) {
+            addCriterion("AUTH_PID in", values, "authPid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthPidNotIn(List<String> values) {
+            addCriterion("AUTH_PID not in", values, "authPid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthPidBetween(String value1, String value2) {
+            addCriterion("AUTH_PID between", value1, value2, "authPid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuthPidNotBetween(String value1, String value2) {
+            addCriterion("AUTH_PID not between", value1, value2, "authPid");
+            return (Criteria) this;
+        }
+
         public Criteria andAuthPasswordIsNull() {
             addCriterion("AUTH_PASSWORD is null");
             return (Criteria) this;

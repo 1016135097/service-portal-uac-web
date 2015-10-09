@@ -5,6 +5,8 @@ import java.sql.Timestamp;
 public class AuthCenter {
     private Long authId;
 
+    private String authPid;
+
     private String authPassword;
 
     private String authSource;
@@ -29,6 +31,14 @@ public class AuthCenter {
 
     public void setAuthId(Long authId) {
         this.authId = authId;
+    }
+
+    public String getAuthPid() {
+        return authPid;
+    }
+
+    public void setAuthPid(String authPid) {
+        this.authPid = authPid == null ? null : authPid.trim();
     }
 
     public String getAuthPassword() {

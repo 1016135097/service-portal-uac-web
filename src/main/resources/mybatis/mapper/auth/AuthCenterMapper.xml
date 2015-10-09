@@ -3,6 +3,7 @@
 <mapper namespace="com.ai.paas.ipaas.auth.dao.interfaces.AuthCenterMapper" >
   <resultMap id="BaseResultMap" type="com.ai.paas.ipaas.auth.dao.mapper.bo.AuthCenter" >
     <id column="AUTH_ID" property="authId" jdbcType="BIGINT" />
+    <result column="AUTH_PID" property="authPid" jdbcType="VARCHAR" />
     <result column="AUTH_PASSWORD" property="authPassword" jdbcType="VARCHAR" />
     <result column="AUTH_SOURCE" property="authSource" jdbcType="VARCHAR" />
     <result column="AUTH_USER_ID" property="authUserId" jdbcType="VARCHAR" />
@@ -72,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    AUTH_ID, AUTH_PASSWORD, AUTH_SOURCE, AUTH_USER_ID, AUTH_USER_NAME, AUTH_PARAM, AUTH_STATE, 
-    AUTH_REGISTER_TIME, AUTH_ACTIVE_TIME, AUTH_CANCEL_TIME
+    AUTH_ID, AUTH_PID, AUTH_PASSWORD, AUTH_SOURCE, AUTH_USER_ID, AUTH_USER_NAME, AUTH_PARAM, 
+    AUTH_STATE, AUTH_REGISTER_TIME, AUTH_ACTIVE_TIME, AUTH_CANCEL_TIME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ai.paas.ipaas.auth.dao.mapper.bo.AuthCenterCriteria" >
     select
@@ -109,20 +110,23 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.ai.paas.ipaas.auth.dao.mapper.bo.AuthCenter" >
-    insert into auth_center (AUTH_ID, AUTH_PASSWORD, AUTH_SOURCE, 
-      AUTH_USER_ID, AUTH_USER_NAME, AUTH_PARAM, 
-      AUTH_STATE, AUTH_REGISTER_TIME, AUTH_ACTIVE_TIME, 
-      AUTH_CANCEL_TIME)
-    values (#{authId,jdbcType=BIGINT}, #{authPassword,jdbcType=VARCHAR}, #{authSource,jdbcType=VARCHAR}, 
-      #{authUserId,jdbcType=VARCHAR}, #{authUserName,jdbcType=VARCHAR}, #{authParam,jdbcType=VARCHAR}, 
-      #{authState,jdbcType=VARCHAR}, #{authRegisterTime,jdbcType=TIMESTAMP}, #{authActiveTime,jdbcType=TIMESTAMP}, 
-      #{authCancelTime,jdbcType=TIMESTAMP})
+    insert into auth_center (AUTH_ID, AUTH_PID, AUTH_PASSWORD, 
+      AUTH_SOURCE, AUTH_USER_ID, AUTH_USER_NAME, 
+      AUTH_PARAM, AUTH_STATE, AUTH_REGISTER_TIME, 
+      AUTH_ACTIVE_TIME, AUTH_CANCEL_TIME)
+    values (#{authId,jdbcType=BIGINT}, #{authPid,jdbcType=VARCHAR}, #{authPassword,jdbcType=VARCHAR}, 
+      #{authSource,jdbcType=VARCHAR}, #{authUserId,jdbcType=VARCHAR}, #{authUserName,jdbcType=VARCHAR}, 
+      #{authParam,jdbcType=VARCHAR}, #{authState,jdbcType=VARCHAR}, #{authRegisterTime,jdbcType=TIMESTAMP}, 
+      #{authActiveTime,jdbcType=TIMESTAMP}, #{authCancelTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.ai.paas.ipaas.auth.dao.mapper.bo.AuthCenter" >
     insert into auth_center
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="authId != null" >
         AUTH_ID,
+      </if>
+      <if test="authPid != null" >
+        AUTH_PID,
       </if>
       <if test="authPassword != null" >
         AUTH_PASSWORD,
@@ -155,6 +159,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="authId != null" >
         #{authId,jdbcType=BIGINT},
+      </if>
+      <if test="authPid != null" >
+        #{authPid,jdbcType=VARCHAR},
       </if>
       <if test="authPassword != null" >
         #{authPassword,jdbcType=VARCHAR},
@@ -197,6 +204,9 @@
       <if test="record.authId != null" >
         AUTH_ID = #{record.authId,jdbcType=BIGINT},
       </if>
+      <if test="record.authPid != null" >
+        AUTH_PID = #{record.authPid,jdbcType=VARCHAR},
+      </if>
       <if test="record.authPassword != null" >
         AUTH_PASSWORD = #{record.authPassword,jdbcType=VARCHAR},
       </if>
@@ -232,6 +242,7 @@
   <update id="updateByExample" parameterType="map" >
     update auth_center
     set AUTH_ID = #{record.authId,jdbcType=BIGINT},
+      AUTH_PID = #{record.authPid,jdbcType=VARCHAR},
       AUTH_PASSWORD = #{record.authPassword,jdbcType=VARCHAR},
       AUTH_SOURCE = #{record.authSource,jdbcType=VARCHAR},
       AUTH_USER_ID = #{record.authUserId,jdbcType=VARCHAR},
@@ -248,6 +259,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.ai.paas.ipaas.auth.dao.mapper.bo.AuthCenter" >
     update auth_center
     <set >
+      <if test="authPid != null" >
+        AUTH_PID = #{authPid,jdbcType=VARCHAR},
+      </if>
       <if test="authPassword != null" >
         AUTH_PASSWORD = #{authPassword,jdbcType=VARCHAR},
       </if>
@@ -280,7 +294,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ai.paas.ipaas.auth.dao.mapper.bo.AuthCenter" >
     update auth_center
-    set AUTH_PASSWORD = #{authPassword,jdbcType=VARCHAR},
+    set AUTH_PID = #{authPid,jdbcType=VARCHAR},
+      AUTH_PASSWORD = #{authPassword,jdbcType=VARCHAR},
       AUTH_SOURCE = #{authSource,jdbcType=VARCHAR},
       AUTH_USER_ID = #{authUserId,jdbcType=VARCHAR},
       AUTH_USER_NAME = #{authUserName,jdbcType=VARCHAR},

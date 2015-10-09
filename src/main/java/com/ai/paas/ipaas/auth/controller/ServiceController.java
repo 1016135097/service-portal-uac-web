@@ -29,14 +29,18 @@ public class ServiceController {
 	@RequestMapping(value = "/svsdk", produces = "text/html;charset=UTF-8")
 	public @ResponseBody String svsdk(@RequestParam String authUserName,
 													String authUserId,
+													String authPid,
 													String authParam,
 													String authPassword)  throws PaasException  {
 		Gson son = new Gson();
 		Assert.notNull(authUserName, "authUserName is null");
 		Assert.notNull(authUserId, "authUserId is null");
+		Assert.notNull(authPid, "authPid is null");
 		Assert.notNull(authParam, "authParam is null");
 		Assert.notNull(authPassword, "authPassword is null");
+		
 		AuthCenter ac = new AuthCenter();
+		ac.setAuthPid(authPid);
 		ac.setAuthUserId(authUserId);
 		ac.setAuthUserName(authUserName);
 		ac.setAuthParam(authParam);
@@ -44,18 +48,22 @@ public class ServiceController {
 		ac.setAuthRegisterTime(new Timestamp((new Date().getTime())));
 		ac.setAuthSource(AuthConstants.AUTH_SDK_USER);
 		ac.setAuthState(AuthConstants.AUTH_STATE_NOT_ACTIVED);
+		
 		OperResult operRes = authCenterSv.svsdk(ac);
 		return son.toJson(operRes);
 	}
 	@RequestMapping(value = "/svweb", produces = "text/html;charset=UTF-8")
 	public @ResponseBody String svweb(@RequestParam String authUserName,
 													String authUserId,
+													String authPid,
 													String authPassword)  throws PaasException  {
 		Gson son = new Gson();
 		Assert.notNull(authUserName, "authUserName is null");
 		Assert.notNull(authUserId, "authUserId is null");
+		Assert.notNull(authPid, "authPid is null");
 		Assert.notNull(authPassword, "authPassword is null");
 		AuthCenter ac = new AuthCenter();
+		ac.setAuthPid(authPid);
 		ac.setAuthUserId(authUserId);
 		ac.setAuthUserName(authUserName);
 		ac.setAuthPassword(authPassword);
