@@ -39,4 +39,10 @@ public interface IAuthCenterSv {
 	 * @throws PaasException
 	 */
 	OperResult modifyServPwd(String newPwd, String oldPwd, String serviceId, String userId) throws PaasException;
+	/**
+	 * 账户置换
+	 * @return
+	 * @throws PaasException
+	 */
+	OperResult modifyAccount(String mail, String userId) throws PaasException;
 }
