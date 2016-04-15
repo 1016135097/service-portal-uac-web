@@ -107,7 +107,7 @@ task copyConfigFiles(type: Copy){
 }
 
 war {
-    baseName = "iPaas-UAC"
+    baseName = "service-portal-uac-web"
 }
 
 build.dependsOn copyDeps,copyConfigFiles
