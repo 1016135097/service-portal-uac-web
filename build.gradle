@@ -49,6 +49,8 @@ dependencies{
                 "org.springframework:spring-test:4.1.6.RELEASE",  
                 "junit:junit:4.11"  
         )  
+	
+	compile 'com.ai.runner.xss.filter:xss-firewall:1.6'
 }
 
 
