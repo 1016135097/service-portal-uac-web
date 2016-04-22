@@ -16,6 +16,7 @@ import com.ai.paas.ipaas.auth.constants.AuthConstants;
 import com.ai.paas.ipaas.auth.dao.mapper.bo.AuthCenter;
 import com.ai.paas.ipaas.auth.service.IAuthCenterSv;
 import com.ai.paas.ipaas.auth.service.dto.AuthDescriptor;
+import com.ai.paas.ipaas.auth.service.dto.AuthParam;
 import com.ai.paas.ipaas.auth.service.dto.AuthResult;
 import com.ai.paas.ipaas.auth.service.dto.OperResult;
 import com.ai.paas.ipaas.util.Assert;
@@ -69,6 +70,42 @@ public class ServiceController {
 		}
 	}
 
+	@RequestMapping(value = "/auth", produces = "text/html;charset=UTF-8")
+	public @ResponseBody String auth(@RequestParam String pId,
+			@RequestParam String password, @RequestParam String serviceId)  {
+		
+		AuthResult ar = new AuthResult();
+		Gson son = new Gson();
+		try {
+			Assert.notNull(pId, "pId is null");
+			Assert.notNull(password, "password is null");
+			Assert.notNull(serviceId, "serviceId is null");
+			
+			AuthParam ap = new AuthParam();
+			ap.setpId(pId);
+			ap.setPassword(password);
+			ap.setServiceId(serviceId);
+			log.debug("pId-----------------" + pId);
+			log.debug("serviceId-----------------" + serviceId);
+			log.debug("password-----------------" + password);
+			
+			AuthResult queryRes = authCenterSv.auth(ap);
+			if (queryRes.isSuccessed()) {
+				return son.toJson(queryRes);
+			} else {
+				ar.setSuccessed(false);
+				ar.setAuthMsg(queryRes.getAuthMsg());
+				ar.setUserName(pId);
+				return son.toJson(ar);
+			}
+		} catch (Exception e) {
+			ar.setAuthMsg("System error...Param{pId:"+pId+"----password:"+password+"----serviceId:"+serviceId+"}");
+			ar.setUserName(pId);
+			ar.setSuccessed(false);
+			return son.toJson(ar);
+		}
+	}
+	
 	@RequestMapping(value = "/svsdk", produces = "text/html;charset=UTF-8")
 	public @ResponseBody String svsdk(@RequestParam String authUserName,
 			String authUserId, String authPid, String authParam,
