@@ -57,6 +57,7 @@ public class AuthCenterSvImpl implements IAuthCenterSv {
 				AuthCenter authResult = authResults.get(0);
 				result.setSuccessed(true);
 				result.setUserId(authResult.getAuthUserId());
+				result.setPid(authResult.getAuthPid());
 			} else {
 				result.setSuccessed(false);
 				result.setAuthMsg(AuthConstants.AUTH_FAILURE_MSG);
@@ -112,6 +113,7 @@ public class AuthCenterSvImpl implements IAuthCenterSv {
 					result.setConfigUser(info.getConfigUser());
 					result.setUserId(userId);
 					result.setUserName(authUserName);
+					result.setPid(authResult.getAuthPid());
 				} else {
 					result.setSuccessed(false);
 					result.setAuthMsg(AuthConstants.AUTH_FAILURE_MSG);
@@ -133,58 +135,67 @@ public class AuthCenterSvImpl implements IAuthCenterSv {
 		try {
 			String pId = authParam.getpId();
 			String serviceId = authParam.getServiceId();
-			
-			//根据pid查询userId
-			AuthCenterMapper mapper = template.getMapper(AuthCenterMapper.class);
+
+			// 根据pid查询userId
+			AuthCenterMapper mapper = template
+					.getMapper(AuthCenterMapper.class);
 			AuthCenterCriteria acc = new AuthCenterCriteria();
-			acc.createCriteria().andAuthPidEqualTo(pId).andAuthSourceEqualTo(AuthConstants.AUTH_WEB_USER);
+			acc.createCriteria().andAuthPidEqualTo(pId)
+					.andAuthSourceEqualTo(AuthConstants.AUTH_WEB_USER);
 			List<AuthCenter> acRes = mapper.selectByExample(acc);
-			if(acRes.size() > 0){
+			if (acRes.size() > 0) {
 				userId = acRes.get(0).getAuthUserId();
 				authUserName = acRes.get(0).getAuthUserName();
 			}
-			if(userId != null && authUserName != null){
+			if (userId != null && authUserName != null) {
 				String password = authParam.getPassword();
 				// restful链接、用户编码、密码、账户来源
 				AuthCenterCriteria authCenterCriteria = new AuthCenterCriteria();
-				
-				authCenterCriteria.createCriteria().andAuthUserNameEqualTo(serviceId).andAuthPidEqualTo(pId).andAuthPasswordEqualTo(password);
-				List<AuthCenter> authResults = mapper.selectByExample(authCenterCriteria);
-				
+
+				authCenterCriteria.createCriteria()
+						.andAuthUserNameEqualTo(serviceId)
+						.andAuthPidEqualTo(pId)
+						.andAuthPasswordEqualTo(password);
+				List<AuthCenter> authResults = mapper
+						.selectByExample(authCenterCriteria);
+
 				if (authResults.size() == 1) {
-					
+
 					AuthCenter authResult = authResults.get(0);
 					Gson son = new Gson();
-					ConfigInfo info = son.fromJson(authResult.getAuthParam(), ConfigInfo.class);
+					ConfigInfo info = son.fromJson(authResult.getAuthParam(),
+							ConfigInfo.class);
 					result.setSuccessed(true);
 					result.setConfigAddr(info.getConfigAddr());
 					result.setConfigPasswd(info.getConfigPwd());
 					result.setConfigUser(info.getConfigUser());
 					result.setUserId(userId);
 					result.setUserName(authUserName);
-					
-					//put history add by jianhua.ma 20151105
-					AuthHistoryMapper hisMapper = template.getMapper(AuthHistoryMapper.class);
+					result.setPid(authResult.getAuthPid());
+					// put history add by jianhua.ma 20151105
+					AuthHistoryMapper hisMapper = template
+							.getMapper(AuthHistoryMapper.class);
 					AuthHistory his = new AuthHistory();
 					his.setAuthPid(pId);
 					his.setAuthServiceid(serviceId);
 					his.setAuthDate(new Timestamp(new Date().getTime()));
 					hisMapper.insert(his);
-					
-				}else{
+
+				} else {
 					result.setSuccessed(false);
 					result.setAuthMsg(AuthConstants.AUTH_FAILURE_MSG);
 				}
-				
+
 			}
 
 		} catch (Exception e) {
-			Log.error("authService:"+e.getMessage(), e);
-			throw new UserClientException(PaaSConstant.ExceptionCode.SYSTEM_ERROR, e);
+			Log.error("authService:" + e.getMessage(), e);
+			throw new UserClientException(
+					PaaSConstant.ExceptionCode.SYSTEM_ERROR, e);
 		}
 		return result;
 	}
-	
+
 	@Override
 	public OperResult activeUser(AuthCenter authDes) throws UserClientException {
 		OperResult res = new OperResult();

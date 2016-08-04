@@ -11,6 +11,7 @@ public class AuthResult implements Serializable {
 
 	private String userId = null;
 	private String userName = null;
+	private String pid = null;
 	private boolean successed = false;
 	private String authMsg = null;
 	/**
@@ -76,6 +77,14 @@ public class AuthResult implements Serializable {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getPid() {
+		return pid;
+	}
+
+	public void setPid(String pid) {
+		this.pid = pid;
 	}
 
 }
