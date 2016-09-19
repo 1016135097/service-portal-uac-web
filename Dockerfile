@@ -21,6 +21,8 @@ COPY ./script/service-portal-uac-web.sh /service-portal-uac-web.sh
 RUN cd /opt/apache-tomcat-8.0.35/webapps && unzip -oq service-portal-uac-web.war -d service-portal-uac-web
 RUN chmod 755 /etc/init.d/tomcat8 /*.sh && rm -fr /pkg
 
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
 ENV CATALINA_HOME /opt/apache-tomcat-8.0.35
 ENV PATH $CATALINA_HOME/bin:$PATH
 ENV JDBC_FILE $CATALINA_HOME/webapps/service-portal-uac-web/WEB-INF/classes/context/jdbc.properties
