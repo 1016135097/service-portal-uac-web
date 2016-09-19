@@ -23,6 +23,8 @@ RUN chmod 755 /etc/init.d/tomcat8 /*.sh && rm -fr /pkg
 
 RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
+RUN echo “Asia/Shanghai” >> /etc/timezone
+
 ENV CATALINA_HOME /opt/apache-tomcat-8.0.35
 ENV PATH $CATALINA_HOME/bin:$PATH
 ENV JDBC_FILE $CATALINA_HOME/webapps/service-portal-uac-web/WEB-INF/classes/context/jdbc.properties
