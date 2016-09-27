@@ -8,4 +8,4 @@ sed -i "s/8080/${SERVER_PORT}/g" ${CATALINA_HOME}/conf/server.xml
 sed -i "s/8005/${SHUTDOWN_PORT}/g" ${CATALINA_HOME}/conf/server.xml
 sed -i "s/8009/${APJ_PORT}/g" ${CATALINA_HOME}/conf/server.xml
 
-nohup /opt/apache-tomcat-8.0.35/bin/catalina.sh run >> /service-portal-uac-web.log
+nohup /opt/apache-tomcat-8.0.35/bin/catalina.sh run 
