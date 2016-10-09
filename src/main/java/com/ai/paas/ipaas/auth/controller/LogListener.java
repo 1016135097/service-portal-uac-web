@@ -22,7 +22,7 @@ public class LogListener {
 	/**  
      * 定时计算。每天凌晨 01:00 执行一次  
      */    
-    @Scheduled(cron = "* */1 * * * *")   
+    @Scheduled(cron = "0 0 1 * * *")   
     public void run() {
 		logger.info("---【监听器监听到开始删除日志文件】---");
 		
